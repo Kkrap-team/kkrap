@@ -1,628 +1,341 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kkrap - 나만의 링크 정리함</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>kkrap – 나만의 링크 정리함</title>
+  <meta name="description" content="링크를 폴더로 정리하고, 함께 공유하고, 어디서든 찾아보세요." />
+  <meta property="og:title" content="Kkrap – 나만의 링크 정리함" />
+  <meta property="og:description" content="링크를 폴더로 정리하고, 함께 공유하고, 어디서든 찾아보세요." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og.png" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#ffffff;--fg:#0f172a;--muted:#64748b;--brand:#6366f1;--brand-600:#4f46e5;--line:#e2e8f0;--card:#f8fafc;--accent:#eef2ff}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;color:var(--fg);background:#ffffff;line-height:1.65;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1120px;margin:0 auto;padding:0 20px}
 
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            overflow-x: hidden;
-        }
+    /* Header */
+    .header{position:sticky;top:0;z-index:40;background:#ffffff;border-bottom:1px solid var(--line);transition:box-shadow .2s ease}
+    .header.scrolled{box-shadow:0 6px 30px rgba(0,0,0,.06)}
 
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
+    /* 수정: position: relative 추가 (가운데 고정 기준이 될 부모) */
+    .nav{
+    height:68px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position: relative;           /* ★ 추가 */
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
+    /* 추가: nav 를 절대배치로 정확히 가로 중앙 고정 */
+    .nav > nav{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    }
 
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: #6366f1;
-            text-decoration: none;
-        }
+    /* 나머지는 그대로 */
+    .logo{font-weight:800;font-size:22px;color:var(--brand)}
+    .nav ul{display:flex;gap:20px;list-style:none}
+    .nav a{font-weight:600;color:#334155}
+    .nav a:hover{color:var(--brand)}
+    .cta-btn{padding:12px 18px;border-radius:999px;background:var(--brand);color:#fff;font-weight:700;border:1px solid transparent;transition:transform .15s ease, box-shadow .2s ease}
+    .cta-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(99,102,241,.25);background:var(--brand-600)}
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
 
-        .nav-menu a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
+    /* Hero – centered */
+    .hero{position:relative;padding:96px 0 56px;background:#ffffff;min-height:60vh;display:grid;place-items:center}
+    .hero-inner{max-width:760px;margin:0 auto;text-align:center;position:relative;z-index:1}
+    .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#475569;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;margin-bottom:14px}
+    .hero h1{font-size:48px;line-height:1.18;letter-spacing:-.01em;margin-bottom:8px;font-weight:800}
+    .hero .brand{color:var(--fg);display:block;font-size:44px;margin-top:6px}
+    .hero p{font-size:18px;color:var(--muted);margin:10px auto 22px}
+    .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn-secondary{padding:12px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:700}
+    .btn-secondary:hover{border-color:var(--brand);color:var(--brand)}
 
-        .nav-menu a:hover {
-            color: #6366f1;
-        }
+    /* Section */
+    .section{padding:54px 0;border-top:1px solid var(--line);background:#ffffff}
+    .section h2{font-size:28px;margin-bottom:10px}
+    .section p.lead{color:var(--muted);margin-bottom:22px}
 
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-        }
+    /* Fancy divider (above features) */
+    .section-divider{max-width:1120px;margin:40px auto -20px;display:flex;align-items:center;gap:12px;padding:0 20px}
+    .section-divider .line{flex:1;height:1px;background:linear-gradient(90deg,rgba(99,102,241,0),rgba(99,102,241,.5),rgba(99,102,241,0))}
+    .section-divider .dot{width:10px;height:10px;border-radius:999px;background:var(--brand);box-shadow:0 0 0 6px rgba(99,102,241,.12)}
 
-        .btn-consult {
-            padding: 10px 20px;
-            background: transparent;
-            border: 2px solid #6366f1;
-            color: #6366f1;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
+    /* Showcase */
+    .showcase{display:grid;grid-template-columns:1fr;gap:14px}
+    .shot{border:1px dashed var(--line);border-radius:14px;height:220px;display:flex;align-items:center;justify-content:center;color:var(--muted);background:#fff}
 
-        .btn-consult:hover {
-            background: #6366f1;
-            color: white;
-        }
+    /* CTA – brand section allowed color */
+    .cta{padding:64px 0;background:linear-gradient(135deg,#6366f1 0%,#4f46e5 100%);color:#fff;text-align:center}
+    .cta h2{font-size:30px;margin-bottom:10px}
+    .cta p{opacity:.92;margin-bottom:18px}
+    .cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+    .btn-white{padding:12px 16px;border-radius:999px;background:#ffffff;color:#3730a3;font-weight:700;border:1px solid rgba(255,255,255,.4);transition:transform .15s ease, box-shadow .2s ease}
+    .btn-white:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.25)}
+    .btn-ghost{padding:12px 16px;border-radius:999px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);font-weight:700}
+    .btn-ghost:hover{background:rgba(255,255,255,.08)}
 
-        .btn-download {
-            padding: 10px 20px;
-            background: #6366f1;
-            border: none;
-            color: white;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
+    /* Footer */
+    .footer{padding:36px 0;border-top:1px solid var(--line);color:#475569;background:#ffffff}
 
-        .btn-download:hover {
-            background: #4f46e5;
-            transform: translateY(-2px);
-        }
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.show{opacity:1;transform:translateY(0)}
 
-        /* Hero Section */
-        .hero {
-            padding: 120px 20px 80px;
-            background: linear-gradient(135deg, #f8faff 0%, #f0f9ff 100%);
-            text-align: center;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    @media (max-width:768px){
+      .hero{min-height:60vh}
+      .hero h1{font-size:36px}
+      .hero .brand{font-size:32px}
+    }
+      /* Full-screen hero override */
+    .hero{min-height:calc(100vh - 68px)!important;padding:48px 0!important;display:flex!important;align-items:center;}
+    .hero-inner{max-width:760px;margin:0 auto;text-align:center;width:100%}
+      /* Extracted design from reference (cards & grids) */
+    .categories{padding:80px 20px;background:#f8faff}
+    .categories-container{max-width:1200px;margin:0 auto;text-align:center}
+    .categories h2{font-size:36px;font-weight:700;color:#333;margin-bottom:12px}
+    .categories p{font-size:18px;color:#666;margin-bottom:40px}
+    .categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:10px}
+    .category-card{background:#fff;padding:30px 20px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.08);transition:transform .25s ease, box-shadow .25s ease;cursor:pointer}
+    .category-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,.12)}
+    .category-icon{font-size:48px;margin-bottom:16px}
+    .category-title{font-size:18px;font-weight:600;color:#333;margin-bottom:6px}
+    .category-desc{font-size:14px;color:#666}
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    .features{padding:80px 20px;background:#fff}
+    .features-container{max-width:1200px;margin:0 auto}
+    .features-container h2{font-size:36px;font-weight:700;color:#333;text-align:center;margin-bottom:12px}
+    .features-container .lead{font-size:18px;color:#666;text-align:center;margin-bottom:40px}
+    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px}
+    .feature-card{padding:30px;border-radius:15px;border:1px solid #e6e6e6;transition:all .25s ease}
+    .feature-card:hover{border-color:#6366f1;box-shadow:0 10px 30px rgba(99,102,241,.12)}
+    .feature-icon{width:60px;height:60px;background:#6366f1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;margin-bottom:16px}
+    .feature-title{font-size:20px;font-weight:600;color:#333;margin-bottom:10px}
+    .feature-desc{font-size:16px;color:#666;line-height:1.6}
 
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
+.showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 30px;
+}
 
-        .hero p {
-            font-size: 20px;
-            color: #666;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
+.shot-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* 텍스트와 이미지 간격 */
+}
 
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+.shot-label {
+  flex: 0 0 200px;        /* 왼쪽 텍스트 영역 고정 폭 */
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;     /* 텍스트를 가운데 정렬 */
 
-        .btn-primary {
-            padding: 15px 30px;
-            background: #6366f1;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
+  display: flex;          /* 세로 중앙 정렬을 위해 flex 사용 */
+  align-items: center;    /* 세로 가운데 */
+  justify-content: center; /* 가로도 가운데 */
+}
 
-        .btn-primary:hover {
-            background: #4f46e5;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
+.shot {
+  flex: 1;
+  max-width: 900px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        .btn-secondary {
-            padding: 15px 30px;
-            background: transparent;
-            color: #333;
-            border: 2px solid #ddd;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+.shot img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
 
-        .btn-secondary:hover {
-            border-color: #6366f1;
-            color: #6366f1;
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 80px 20px;
-            background: white;
-        }
-
-        .stats-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .stats h2 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 50px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: #6366f1;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 16px;
-            color: #666;
-        }
-
-        /* Business Categories Section */
-        .categories {
-            padding: 80px 20px;
-            background: #f8faff;
-        }
-
-        .categories-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .categories h2 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .categories p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 50px;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .category-card {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .category-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .category-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .category-desc {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Features Section */
-        .features {
-            padding: 80px 20px;
-            background: white;
-        }
-
-        .features-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .features h2 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #333;
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .feature-card {
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid #e6e6e6;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            border-color: #6366f1;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: #6366f1;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .feature-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .feature-desc {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* CTA Section */
-        .cta {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .cta-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .cta h2 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .cta p {
-            font-size: 18px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-
-        .btn-white {
-            padding: 15px 30px;
-            background: white;
-            color: #6366f1;
-            border: none;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            margin: 0 10px;
-        }
-
-        .btn-white:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Footer */
-        .footer {
-            padding: 40px 20px;
-            background: #333;
-            color: white;
-            text-align: center;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .categories-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav-container">
-            <a href="#" class="logo">Kkrap</a>
-            <ul class="nav-menu">
-                <li><a href="#features">기능 소개</a></li>
-                <li><a href="#categories">카테고리</a></li>
-                <!-- <li><a href="#community">커뮤니티</a></li>
-                <li><a href="#stories">사용자 스토리</a></li>
-                <li><a href="#pricing">요금제</a></li>
-                <li><a href="#support">고객 지원</a></li> -->
-            </ul>
-            <div class="nav-buttons">
-                <a href="https://kkrap.cloud/" class="btn-download">무료 시작하기</a>
-            </div>
-        </nav>
-    </header>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container nav">
+      <a class="logo" href="#top">kkrap</a>
+      <nav>
+        <ul>
+          <li><a href="#features">kkrap의 핵심 기능</a></li>
+          <li><a href="#categories">어떤 링크를 정리하고 싶으세요?</a></li>
+          <li><a href="#showcase">미리보기</a></li>
+        </ul>
+      </nav>
+      <!-- <a class="cta-btn" href="https://kkrap.cloud/">시작하기</a> -->
+    </div>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>나만의 링크 정리함<br>Kkrap</h1>
-            <p>소중한 링크들을 폴더별로 깔끔하게 정리하고<br>친구들과 함께 공유해보세요!</p>
-            <div class="hero-buttons">
-                <a href="https://kkrap.cloud/" class="btn-primary">무료로 시작하기</a>
-                <!-- <a href="" class="btn-secondary">둘러보기</a> -->
-            </div>
+  <!-- Hero (centered, without image) -->
+  <section class="hero" id="top">
+    <div class="container hero-inner">
+      <div class="copy reveal">
+        <span class="badge">🔗 링크 정리 · 공유 · 검색</span>
+        <h1>나만의 링크 정리함<br><span class="brand">kkrap</span></h1>
+        <p>소중한 링크들을 폴더별로 깔끔하게 정리하고<br>친구들과 함께 공유해보세요!</p>
+        <div class="hero-cta">
+          <a class="cta-btn" href="https://kkrap.cloud/">시작하기</a>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="stats-container">
-            <h2>함께 만들어가는 Kkrap</h2>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">50,000+</div>
-                    <div class="stat-label">저장된 링크</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">5,000+</div>
-                    <div class="stat-label">활성 사용자</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">1,200+</div>
-                    <div class="stat-label">공유 폴더</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">99%</div>
-                    <div class="stat-label">사용자 만족도</div>
-                </div>
-            </div>
+  <!-- Pretty divider just above the Features section -->
+  <div class="section-divider" aria-hidden="true">
+    <span class="line"></span>
+    <span class="dot"></span>
+    <span class="line"></span>
+  </div>
+
+
+  <section class="features" id="features">
+    <div class="features-container">
+      <h2>kkrap의 핵심 기능</h2>
+      <p class="lead">필요한 것만 담았습니다</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📁</div>
+          <div class="feature-title">나만의 링크 정리</div>
+          <div class="feature-desc">링크를 폴더별로 깔끔하게 정리하고, 태그로 더 쉽게 찾아보세요.</div>
         </div>
-    </section>
-
-    <!-- Link Categories Section -->
-    <section class="categories" id="categories">
-        <div class="categories-container">
-            <h2>어떤 링크를 정리하고 싶으세요?</h2>
-            <p>카테고리별로 체계적으로 정리해보세요</p>
-            <div class="categories-grid">
-                <div class="category-card">
-                    <div class="category-icon">💼</div>
-                    <div class="category-title">업무·개발</div>
-                    <div class="category-desc">개발 도구, 업무 사이트</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">📚</div>
-                    <div class="category-title">학습·교육</div>
-                    <div class="category-desc">온라인 강의, 튜토리얼</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🎨</div>
-                    <div class="category-title">디자인·크리에이티브</div>
-                    <div class="category-desc">디자인 툴, 영감 사이트</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🛍️</div>
-                    <div class="category-title">쇼핑·라이프</div>
-                    <div class="category-desc">쇼핑몰, 생활 정보</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🎵</div>
-                    <div class="category-title">엔터테인먼트</div>
-                    <div class="category-desc">음악, 영화, 게임</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🏃</div>
-                    <div class="category-title">건강·운동</div>
-                    <div class="category-desc">운동 영상, 헬스케어</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">✈️</div>
-                    <div class="category-title">여행·맛집</div>
-                    <div class="category-desc">여행 정보, 맛집 리스트</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">💡</div>
-                    <div class="category-title">기타</div>
-                    <div class="category-desc">개인적인 즐겨찾기</div>
-                </div>
-            </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <div class="feature-title">친구들과 함께 공유</div>
+          <div class="feature-desc">공유 폴더를 만들어 함께 추가·삭제하고, 보기/편집 권한을 나눌 수 있어요.</div>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="features-container">
-            <h2>Kkrap의 핵심 기능</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📁</div>
-                    <div class="feature-title">나만의 링크 정리</div>
-                    <div class="feature-desc">나만의 링크들을 폴더별로 깔끔하게 정리할 수 있어요! 카테고리별로 분류하고 태그를 추가해서 쉽게 찾아보세요.</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <div class="feature-title">친구들과 함께 공유</div>
-                    <div class="feature-desc">나의 친구들과 폴더를 만들어서 각자 링크를 추가하고 삭제할 수 있어요! 협업과 정보 공유가 더욱 쉬워집니다.</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <div class="feature-title">다른 사람들의 링크 탐색</div>
-                    <div class="feature-desc">모르는 다른 사람들의 링크가 저장된 폴더도 구경할 수 있어요! 새로운 발견과 영감을 얻어보세요.</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔍</div>
-                    <div class="feature-title">스마트 검색</div>
-                    <div class="feature-desc">저장된 링크를 제목, 태그, 설명으로 빠르게 검색할 수 있습니다.</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <div class="feature-title">모든 기기에서 동기화</div>
-                    <div class="feature-desc">PC, 모바일, 태블릿 어디서든 동일한 링크 컬렉션에 접근하세요.</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <div class="feature-title">빠른 링크 추가</div>
-                    <div class="feature-desc">브라우저 확장 프로그램으로 원클릭으로 링크를 저장할 수 있습니다.</div>
-                </div>
-            </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌍</div>
+          <div class="feature-title">다른 사람들의 링크 탐색</div>
+          <div class="feature-desc">다른 사용자들의 공개 폴더를 둘러보고 영감을 얻어보세요.</div>
         </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="cta-container">
-            <h2>지금 바로 시작하세요</h2>
-            <p>Kkrap와 함께 링크 정리의 새로운 경험을 시작해보세요.<br>무료로 가입하고 친구들과 함께 즐겨보세요!</p>
-            <!-- <a href="https://kkrap.cloud/" class="btn-white">무료 회원가입</a> -->
-            <a href="https://kkrap.cloud/" class="btn-white">데모 체험하기</a>
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-title">스마트 검색</div>
+          <div class="feature-desc">제목·태그·설명 전체 검색으로 원하는 링크를 즉시 찾습니다.</div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <p>&copy; 2025 Kkrap. All rights reserved.</p>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <div class="feature-title">모든 기기에서 동기화</div>
+          <div class="feature-desc">PC, 모바일, 태블릿 어디서든 동일한 컬렉션을 사용하세요.</div>
         </div>
-    </footer>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">빠른 링크 추가</div>
+          <div class="feature-desc">브라우저 확장과 모바일 공유로 1초 저장이 가능해요.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
 
-        // Header background on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-            }
-        });
+  <section class="categories" id="categories">
+    <div class="categories-container">
+      <h2>어떤 링크를 정리하고 싶으세요?</h2>
+      <p>카테고리별로 체계적으로 정리해보세요</p>
+      <div class="categories-grid">
+        <div class="category-card"><div class="category-icon">💼</div><div class="category-title">업무·개발</div><div class="category-desc">개발 도구, 업무 사이트</div></div>
+        <div class="category-card"><div class="category-icon">📚</div><div class="category-title">학습·교육</div><div class="category-desc">온라인 강의, 튜토리얼</div></div>
+        <div class="category-card"><div class="category-icon">🎨</div><div class="category-title">디자인·크리에이티브</div><div class="category-desc">디자인 툴, 영감 사이트</div></div>
+        <div class="category-card"><div class="category-icon">🛍️</div><div class="category-title">쇼핑·라이프</div><div class="category-desc">쇼핑몰, 생활 정보</div></div>
+        <div class="category-card"><div class="category-icon">🎵</div><div class="category-title">엔터테인먼트</div><div class="category-desc">음악, 영화, 게임</div></div>
+        <div class="category-card"><div class="category-icon">🏃</div><div class="category-title">건강·운동</div><div class="category-desc">운동 영상, 헬스케어</div></div>
+        <div class="category-card"><div class="category-icon">✈️</div><div class="category-title">여행·맛집</div><div class="category-desc">여행 정보, 맛집 리스트</div></div>
+        <div class="category-card"><div class="category-icon">💡</div><div class="category-title">기타</div><div class="category-desc">개인적인 즐겨찾기</div></div>
+      </div>
+    </div>
+  </section>
+  
 
-        // Category card click animation
-        document.querySelectorAll('.category-card').forEach(card => {
-            card.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'translateY(-5px)';
-                }, 150);
-            });
-        });
-    </script>
+  <!-- Showcase -->
+<section class="section" id="showcase">
+  <div class="container">
+    <h2 class="reveal">미리보기</h2>
+    <p class="lead reveal">실제 화면 미리 보기</p>
+
+    <div class="showcase">
+      <div class="shot-wrapper">
+        <div class="shot-label">메인 화면</div>
+        <div class="shot reveal">
+          <img src="/screenshots/main.png" alt="메인 목록 화면" />
+        </div>
+      </div>
+
+      <div class="shot-wrapper">
+        <div class="shot-label">폴더 상세 & 공유 화면</div>
+        <div class="shot reveal">
+          <img src="/screenshots/folder.png" alt="폴더 상세 & 공유 초대 화면" />
+        </div>
+      </div>
+
+      <div class="shot-wrapper">
+        <div class="shot-label">검색/태그 필터 화면</div>
+        <div class="shot reveal">
+          <img src="/screenshots/search.png" alt="검색/태그 필터 화면" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- CTA (brand color) -->
+  <section class="cta" aria-label="call-to-action">
+    <div class="container">
+      <h2 class="reveal" style="color:#fff">지금 바로 시작하세요</h2>
+      <p class="reveal" style="color:#eef2ff">필요한 링크부터 차곡차곡 모아보세요.</p>
+      <div class="cta-actions reveal">
+        <a class="btn-white" href="https://kkrap.cloud/">시작하기</a>
+        <a class="btn-ghost" href="https://holy-seatbelt-ff0.notion.site/kkrap-24c716b2f79480149bf2da20e522fa87" target="_blank" rel="noopener">문서 보기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <span>© 2025 kkrap</span>
+      <div style="display:flex;gap:14px">
+        <a href="https://holy-seatbelt-ff0.notion.site/kkrap-24c716b2f79480149bf2da20e522fa87" target="_blank" rel="noopener">문서</a>
+        <a href="https://kkrap.cloud/" target="_blank" rel="noopener">앱</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // header shadow
+    const header=document.getElementById('header');
+    const onScroll=()=>{ if(window.scrollY>6){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); } };
+    document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+    // smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id.length>1){e.preventDefault();document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'})}})
+    })
+
+    // intersection reveal
+    const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
 </body>
 </html>
