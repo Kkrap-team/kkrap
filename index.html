@@ -251,40 +251,109 @@
     .reveal.show{opacity:1;transform:translateY(0)}
 
     @media (max-width:768px){
-      .hero{min-height:60vh}
-      .hero h1{font-size:36px}
-      .hero .brand{font-size:32px}
+      .container{padding:0 16px}
+      
+      /* Header mobile */
+      .nav{height:60px}
+      .nav ul{display:none}
+      .logo{font-size:20px}
+      .cta-btn{padding:10px 16px;font-size:14px}
+      
+      /* Hero mobile */
+      .hero{min-height:80vh;padding:40px 0}
+      .hero h1{font-size:32px;line-height:1.2}
+      .hero .brand{font-size:28px}
+      .hero p{font-size:16px;margin:16px auto 24px}
+      .badge{font-size:11px;padding:5px 8px}
       
       /* Mobile hero folder */
       .hero-folder{
-        width:600px;
-        height:400px;
-        opacity:0.06;
+        width:500px;
+        height:350px;
+        opacity:0.05;
+        left:50%;
       }
       
       /* Mobile phone mockup */
       .phone-mockup{
-        opacity:0.5;
-        transform:translate(-50%, -50%) scale(0.6);
-        left:15%;
+        opacity:0.4;
+        transform:translate(-50%, -50%) scale(0.5);
+        left:10%;
       }
       
       .phone-frame{
-        width:200px;
-        height:350px;
+        width:180px;
+        height:320px;
       }
       
       .context-menu{
-        bottom:-60px;
-        min-width:120px;
+        bottom:-50px;
+        min-width:100px;
+        padding:8px;
       }
       
       .menu-item{
-        padding:8px 12px;
-        font-size:12px;
+        padding:6px 10px;
+        font-size:11px;
       }
       
-
+      /* Categories mobile */
+      .categories{padding:60px 16px}
+      .categories h2{font-size:28px}
+      .categories p{font-size:16px}
+      .categories-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+      .category-card{padding:20px 16px}
+      .category-icon{font-size:36px}
+      .category-title{font-size:16px}
+      .category-desc{font-size:13px}
+      
+      /* Features mobile */
+      .features{padding:60px 16px}
+      .features-container h2{font-size:28px}
+      .features-container .lead{font-size:16px}
+      .features-grid{grid-template-columns:1fr;gap:24px}
+      .feature-card{padding:24px 16px}
+      .feature-icon{width:50px;height:50px;font-size:20px}
+      .feature-title{font-size:18px}
+      .feature-desc{font-size:14px}
+      
+      /* Showcase mobile */
+      .showcase{gap:30px}
+      .shot-wrapper{flex-direction:column;gap:12px}
+      .shot-label{flex:none;font-size:16px;text-align:center}
+      .shot{min-height:300px}
+      
+      /* CTA mobile */
+      .cta{padding:50px 16px}
+      .cta h2{font-size:24px}
+      .cta p{font-size:16px}
+      .cta-actions{flex-direction:column;align-items:center;gap:16px}
+      .btn-white, .btn-ghost{width:200px;text-align:center}
+    }
+    
+    /* Small mobile devices */
+    @media (max-width:480px){
+      .hero h1{font-size:28px}
+      .hero .brand{font-size:24px}
+      .hero p{font-size:15px}
+      
+      .hero-folder{
+        width:400px;
+        height:280px;
+        opacity:0.04;
+      }
+      
+      .phone-mockup{
+        opacity:0.3;
+        transform:translate(-50%, -50%) scale(0.4);
+        left:8%;
+      }
+      
+      .categories-grid{grid-template-columns:1fr;gap:16px}
+      .category-card{padding:16px 12px}
+      
+      .features-grid{gap:20px}
+      .feature-card{padding:20px 12px}
     }
       /* Full-screen hero override */
     .hero{min-height:calc(100vh - 68px)!important;padding:48px 0!important;display:flex!important;align-items:center;}
