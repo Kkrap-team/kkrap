@@ -52,8 +52,165 @@
 
 
     /* Hero – centered */
-    .hero{position:relative;padding:96px 0 56px;background:#ffffff;min-height:60vh;display:grid;place-items:center}
-    .hero-inner{max-width:760px;margin:0 auto;text-align:center;position:relative;z-index:1}
+    .hero{position:relative;padding:96px 0 56px;background:#ffffff;min-height:60vh;display:grid;place-items:center;overflow:hidden}
+    .hero-inner{max-width:760px;margin:0 auto;text-align:center;position:relative;z-index:2}
+    
+    /* Single large folder background */
+    .hero-folder{
+      position:absolute;
+      top:50%;
+      left:52%;
+      transform:translate(-50%, -50%);
+      z-index:1;
+      opacity:0.08;
+      width:900px;
+      height:600px;
+      animation:gentleFloat 15s ease-in-out infinite;
+    }
+    
+    @keyframes gentleFloat{
+      0%, 100%{transform:translate(-50%, -50%) rotate(0deg) scale(1)}
+      50%{transform:translate(-50%, -48%) rotate(1deg) scale(1.02)}
+    }
+    
+    /* Phone mockup */
+    .phone-mockup{
+      position:absolute;
+      top:50%;
+      left:20%;
+      transform:translate(-50%, -50%);
+      z-index:0;
+      opacity:0.7;
+    }
+    
+    .phone-frame{
+      width:260px;
+      height:460px;
+      background:#1f2937;
+      border-radius:28px;
+      padding:12px;
+      position:relative;
+      box-shadow:0 15px 40px rgba(0,0,0,0.2);
+    }
+    
+    .phone-screen{
+      width:100%;
+      height:100%;
+      background:#ffffff;
+      border-radius:12px;
+      overflow:hidden;
+      position:relative;
+    }
+    
+    .browser-header{
+      background:#f8fafc;
+      padding:12px;
+      border-bottom:1px solid #e2e8f0;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    
+    .browser-dots{
+      display:flex;
+      gap:6px;
+    }
+    
+    .browser-dots span{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#94a3b8;
+    }
+    
+    .address-bar{
+      flex:1;
+      background:#e2e8f0;
+      border-radius:6px;
+      padding:6px 12px;
+      font-size:13px;
+      color:#64748b;
+      font-family:monospace;
+    }
+    
+    .article-preview{
+      padding:18px;
+    }
+    
+    .article-image{
+      width:100%;
+      height:90px;
+      background:linear-gradient(135deg, #6366f1, #a5b4fc);
+      border-radius:8px;
+      margin-bottom:12px;
+    }
+    
+    .article-title{
+      font-size:16px;
+      font-weight:600;
+      color:#1f2937;
+      margin-bottom:6px;
+      line-height:1.3;
+    }
+    
+    .article-text{
+      font-size:13px;
+      color:#6b7280;
+      line-height:1.4;
+    }
+    
+    .touch-indicator{
+      position:absolute;
+      bottom:140px;
+      right:30px;
+      width:55px;
+      height:55px;
+      border-radius:50%;
+      background:rgba(99,102,241,0.2);
+      animation:touchPulse 2s ease-in-out infinite;
+    }
+    
+    .context-menu{
+      position:absolute;
+      bottom:-80px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#ffffff;
+      border-radius:12px;
+      box-shadow:0 12px 35px rgba(0,0,0,0.15);
+      padding:12px;
+      min-width:160px;
+      animation:menuSlide 3s ease-in-out infinite;
+    }
+    
+    .menu-item{
+      padding:12px 16px;
+      font-size:14px;
+      border-radius:6px;
+      cursor:pointer;
+      transition:background 0.2s;
+    }
+    
+    .menu-item.active{
+      background:#6366f1;
+      color:white;
+      font-weight:600;
+    }
+    
+
+    
+    @keyframes touchPulse{
+      0%, 100%{transform:scale(1); opacity:0.6}
+      50%{transform:scale(1.3); opacity:0.2}
+    }
+    
+    @keyframes menuSlide{
+      0%, 70%{opacity:0; transform:translateX(-50%) translateY(10px)}
+      80%, 90%{opacity:1; transform:translateX(-50%) translateY(0px)}
+      100%{opacity:0; transform:translateX(-50%) translateY(10px)}
+    }
+    
+
     .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#475569;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;margin-bottom:14px}
     .hero h1{font-size:48px;line-height:1.18;letter-spacing:-.01em;margin-bottom:8px;font-weight:800}
     .hero .brand{color:var(--fg);display:block;font-size:44px;margin-top:6px}
@@ -97,6 +254,37 @@
       .hero{min-height:60vh}
       .hero h1{font-size:36px}
       .hero .brand{font-size:32px}
+      
+      /* Mobile hero folder */
+      .hero-folder{
+        width:600px;
+        height:400px;
+        opacity:0.06;
+      }
+      
+      /* Mobile phone mockup */
+      .phone-mockup{
+        opacity:0.5;
+        transform:translate(-50%, -50%) scale(0.6);
+        left:15%;
+      }
+      
+      .phone-frame{
+        width:200px;
+        height:350px;
+      }
+      
+      .context-menu{
+        bottom:-60px;
+        min-width:120px;
+      }
+      
+      .menu-item{
+        padding:8px 12px;
+        font-size:12px;
+      }
+      
+
     }
       /* Full-screen hero override */
     .hero{min-height:calc(100vh - 68px)!important;padding:48px 0!important;display:flex!important;align-items:center;}
@@ -187,11 +375,69 @@
     </div>
   </header>
 
-  <!-- Hero (centered, without image) -->
+  <!-- Hero (centered, with single folder background) -->
   <section class="hero" id="top">
+    <!-- Phone screen with link copying visualization -->
+    
+    <!-- Phone mockup -->
+    <div class="phone-mockup">
+      <!-- Phone frame -->
+      <div class="phone-frame">
+        <!-- Screen content -->
+        <div class="phone-screen">
+          <!-- Browser/app interface -->
+          <div class="browser-header">
+            <div class="browser-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="address-bar">example.com/article</div>
+          </div>
+          
+          <!-- Article preview -->
+          <div class="article-preview">
+            <div class="article-image"></div>
+            <div class="article-title">Amazing Article Title</div>
+            <div class="article-text">Learn something new today...</div>
+          </div>
+          
+          <!-- Touch indicator -->
+          <div class="touch-indicator"></div>
+        </div>
+        
+        <!-- Copy context menu -->
+        <div class="context-menu">
+          <div class="menu-item active">📋 링크 복사</div>
+          <div class="menu-item">📱 공유하기</div>
+        </div>
+      </div>
+    </div>
+    
+
+
+    <!-- Single large folder background -->
+    <svg class="hero-folder" viewBox="0 0 600 600" fill="none">
+      <path d="M50 150h90l30-48h310c18 0 30 12 30 30v228c0 18-12 30-30 30H80c-18 0-30-12-30-30V180c0-18 12-30 30-30z" fill="#6366f1"/>
+      
+      <!-- Folder content lines -->
+      <path d="M100 240h280v12h-280v-12zm0 30h250v12h-250v-12zm0 30h310v12h-310v-12zm0 30h220v12h-220v-12zm0 30h280v12h-280v-12z" fill="#ffffff" opacity="0.6"/>
+      
+      <!-- Share indicators - multiple user avatars -->
+      <circle cx="480" cy="100" r="24" fill="#a5b4fc" opacity="0.8"/>
+      <circle cx="510" cy="120" r="18" fill="#c7d2fe" opacity="0.7"/>
+      <circle cx="450" cy="120" r="18" fill="#c7d2fe" opacity="0.7"/>
+      <circle cx="430" cy="140" r="15" fill="#e0e7ff" opacity="0.6"/>
+      
+      <!-- Connection lines between users -->
+      <path d="M470 120c10-5 20-5 30 0m-50 20c8-3 16-3 24 0m-35 20c6-2 12-2 18 0" stroke="#6366f1" stroke-width="2" opacity="0.4" fill="none"/>
+      
+      <!-- Share arrows -->
+      <path d="M520 140h40m-20-12l12 12-12 12" stroke="#4f46e5" stroke-width="3" opacity="0.5" fill="none"/>
+      <path d="M400 160h-40m20-12l-12 12 12 12" stroke="#4f46e5" stroke-width="3" opacity="0.5" fill="none"/>
+    </svg>
+
     <div class="container hero-inner">
       <div class="copy reveal">
-        <span class="badge">🔗 링크 정리 · 공유 · 검색</span>
+        <span class="badge">📁 링크 정리 · 공유 · 검색</span>
         <h1>나만의 링크 정리함<br><span class="brand">kkrap</span></h1>
         <p>소중한 링크들을 폴더별로 깔끔하게 정리하고<br>친구들과 함께 공유해보세요!</p>
         <div class="hero-cta">
